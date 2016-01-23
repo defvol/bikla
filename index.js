@@ -6,7 +6,10 @@ var tileReduce = require('tile-reduce'),
       -98.95248413085938,
       +19.57402397030765
     ],
-    count = 0;
+    output = {
+      count: 0,
+      distance: 0
+    };
 
 tileReduce({
   bbox: df,
@@ -19,8 +22,9 @@ tileReduce({
   }]
 })
 .on('reduce', function(result) {
-  count += result;
+  output.count += result.count;
+  output.distance += result.distance;
 })
 .on('end', function(res) {
-  console.log(count);
+  console.log('%j', output);
 });

@@ -1,12 +1,20 @@
+var turf = require('turf');
+
 module.exports = function(data, tile, writeData, done) {
-  var count = 0;
-  var osmLayer = (data.osm.osm);
+  var result = {
+    count: 0,
+    distance: 0
+  },
+  osmLayer = (data.osm.osm);
 
   osmLayer.features.forEach(function(element, index, array) {
     var highway = element.properties['highway'];
-    if (highway && highway == 'cycleway') count ++;
+    if (highway && highway == 'cycleway') {
+      result.count++;
+      result.distance += turf.lineDistance(element, 'kilometers');
+    }
   });
 
-  done(null, count);
+  done(null, result);
 };
 
